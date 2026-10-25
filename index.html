@@ -43,39 +43,45 @@
         </div>
 
         <!-- Mensagem -->
-        <div class="middle-content">
-          <div class="phrase" id="phrase" aria-live="polite">
-            Hello, World! Você desbloqueou uma mensagem secreta.
-          </div>
-        </div>
-
+        
         <!-- GIF: aparece após o desbloqueio -->
-        <div class="gif-container" id="gifContainer" hidden>
-          <img
-            id="teamGif"
-            src="https://media.giphy.com/media/l0G17m03uuLd7828U/giphy.gif"
-            alt="GIF relacionado ao insight"
-          >
-        </div>
+<!-- GIF: aparece após o desbloqueio -->
+<div class="gif-container" id="gifContainer" hidden>
+  <img
+    id="teamGif"
+    src="https://media.giphy.com/media/l0G17m03uuLd7828U/giphy.gif"
+    alt="GIF relacionado ao insight"
+  >
+</div>
 
-        <!-- Ações -->
-        <div class="footer-content">
+<!-- Frase e ações secundárias -->
+<div class="middle-content">
+
+  <div class="phrase" id="phrase" aria-live="polite">
+    Hello, World! Você desbloqueou uma mensagem 🔓.
+  </div>
+
+  <div class="secondary-actions" id="secondaryActions" hidden>
+    <button class="secondary" id="share" type="button">
+      Compartilhar ↗
+    </button>
+
+    <button class="secondary" id="copy" type="button">
+      Copiar ⧉
+    </button>
+  </div>
+
+</div>
+
+<!-- Ação principal -->
+<div class="footer-content">
   <div class="actions">
     <button class="primary" id="generate" type="button">
       Ver insight
     </button>
-
-    <div class="secondary-actions" id="secondaryActions" hidden>
-      <button class="secondary" id="share" type="button">
-        Compartilhar ↗
-      </button>
-
-      <button class="secondary" id="copy" type="button">
-        Copiar ⧉
-      </button>
-    </div>
   </div>
 </div>
+        <!-- Ações -->
     </section>
   </main>
 </body>

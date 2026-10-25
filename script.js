@@ -75,32 +75,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function shareInsight() {
-        const text = phraseEl.textContent;
-        const url = window.location.href;
+async function shareInsight() {
+    const text = phraseEl.textContent;
+    const gifUrl = gifEl.src;
+    const pageUrl = window.location.href;
 
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: "Insight do hello_world.exe",
-                    text: text,
-                    url: url
-                });
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    console.error("Não foi possível compartilhar:", error);
-                }
-            }
-        } else {
-            try {
-                await navigator.clipboard.writeText(`${text}\n${url}`);
-                alert("Insight e link copiados!");
-            } catch (error) {
-                console.error("Não foi possível copiar:", error);
-                alert("Não foi possível compartilhar ou copiar automaticamente.");
+    const shareText = `"${text}"\n\nGIF: ${gifUrl}`;
+
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: "Insight do hello_world.exe",
+                text: shareText
+            });
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                console.error("Não foi possível compartilhar:", error);
             }
         }
+    } else {
+        try {
+            await navigator.clipboard.writeText(shareText);
+            alert("Frase e links copiados!");
+        } catch (error) {
+            console.error("Não foi possível copiar:", error);
+            alert("Não foi possível compartilhar ou copiar automaticamente.");
+        }
     }
+}
 
     // Registra os eventos dos botões
     generateBtn.addEventListener("click", generateSurprise);
