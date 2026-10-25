@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const shareBtn = document.getElementById("share");
     const copyBtn = document.getElementById("copy");
     const secondaryActions = document.getElementById("secondaryActions");
-    
+
     function generateSurprise() {
         if (!phraseEl || messages.length === 0 || gifs.length === 0) return;
 
@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         gifEl.src = gifs[gifIndex];
 
         // Exibe o conteúdo desbloqueado
-       gifContainer.hidden = false;
-secondaryActions.hidden = false;
+        gifContainer.hidden = false;
+        secondaryActions.hidden = false;
 
         // Aplica as animações
         phraseEl.classList.add("changed");
@@ -59,21 +59,21 @@ secondaryActions.hidden = false;
     }
 
     async function copyInsight() {
-    const text = `${phraseEl.textContent}\n${window.location.href}`;
+        const text = `${phraseEl.textContent}\n${window.location.href}`;
 
-    try {
-        await navigator.clipboard.writeText(text);
+        try {
+            await navigator.clipboard.writeText(text);
 
-        copyBtn.textContent = "Copiado! ✓";
+            copyBtn.textContent = "Copiado! ✓";
 
-        setTimeout(() => {
-            copyBtn.textContent = "Copiar ⧉";
-        }, 2000);
-    } catch (error) {
-        console.error("Não foi possível copiar:", error);
-        alert("Não foi possível copiar automaticamente. Verifique as permissões do navegador.");
+            setTimeout(() => {
+                copyBtn.textContent = "Copiar ⧉";
+            }, 2000);
+        } catch (error) {
+            console.error("Não foi possível copiar:", error);
+            alert("Não foi possível copiar automaticamente. Verifique as permissões do navegador.");
+        }
     }
-}
 
     async function shareInsight() {
         const text = phraseEl.textContent;
