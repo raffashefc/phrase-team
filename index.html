@@ -1,357 +1,83 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#233D5D">
-  <meta name="description" content="Gera frases de dev e inspiração.">
+  <meta name="description" content="Humor dev, inspiração e insights para pessoas desenvolvedoras.">
+
   <title>hello_world.exe</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #142235;
-      --panel: #233D5D;
-      --panel-inner: #182b43;
-      --text: #f2f8fa;
-      --muted: #a2c4d4;
-      --accent: #63C3D0;
-      --line: #336983;
-    }
-    * { box-sizing: border-box; }
-    
-    body {
-      margin: 0; 
-      min-height: 100vh; 
-      min-height: 100dvh; 
-      display: grid; 
-      place-items: center;
-      padding: 20px;
-      color: var(--text); 
-      font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-    }
-    
-    main { 
-      width: min(100%, 600px); 
-    }
 
-    .terminal {
-      border: 1px solid var(--line); 
-      border-radius: 18px; 
-      overflow: hidden;
-      background: var(--panel); 
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
-      display: flex;
-      flex-direction: column;
-    }
+  <link rel="stylesheet" href="style.css">
 
-    .topbar { 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      padding: 14px 18px; 
-      background: #1b2e47; 
-      border-bottom: 1px solid var(--line); 
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
-    .filename { margin-left: 8px; color: var(--muted); font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; }
-
-    .content { 
-      padding: clamp(20px, 5vw, 32px); 
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 20px;
-      min-height: 520px;
-    }
-
-    /* Topo: Título e Descrição */
-    .header-content {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      text-align: left;
-    }
-
-    .title {
-      font-size: clamp(22px, 5vw, 28px);
-      font-weight: 700;
-      margin: 0;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      margin: 0 0 10px 0;
-      line-height: 1.4;
-    }
-
-    .prompt-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(51, 105, 131, 0.5);
-    }
-
-    .prompt { 
-      color: var(--accent); 
-      font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; 
-      margin: 0;
-    }
-
-    .badge {
-      font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-      padding: 4px 10px;
-      border-radius: 99px;
-      background: rgba(99, 195, 208, 0.15);
-      color: var(--accent);
-      border: 1px solid var(--line);
-      display: none;
-    }
-    .badge.active { display: inline-block; }
-
-    /* Meio: Caixa da Frase e GIF */
-    .middle-content {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      flex: 1;
-      justify-content: center;
-    }
-
-    .phrase {
-      display: flex; 
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      min-height: 120px; 
-      padding: 20px;
-      border: 1px solid var(--line); 
-      border-radius: 14px; 
-      background: var(--panel-inner);
-      font-size: clamp(17px, 3.8vw, 21px); 
-      font-weight: 600; 
-      line-height: 1.4;
-    }
-
-    .gif-container {
-      width: 100%;
-      height: 180px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: var(--panel-inner);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .gif-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .changed { animation: fadeIn .25s ease; }
-    @keyframes fadeIn { from { opacity: .2; } to { opacity: 1; } }
-
-    /* Base: Botão no Rodapé */
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .actions { 
-      display: flex; 
-      justify-content: flex-end; 
-      align-items: center;
-    }
-
-    button { 
-      border: 0; 
-      border-radius: 999px; 
-      padding: 14px 28px; 
-      font: inherit; 
-      font-size: 15px;
-      font-weight: 700; 
-      cursor: pointer; 
-      touch-action: manipulation;
-      transition: opacity .15s ease, transform .1s ease;
-      width: auto;
-    }
-    button:active { transform: scale(0.97); }
-    button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-    .primary { 
-      background: var(--accent); 
-      color: #0d252f; 
-      width: 100%;
-    }
-
-    /* Layout ajustado para Smartphones */
-    @media (max-width: 640px) {
-      body { padding: 0; }
-      main { width: 100%; height: 100vh; height: 100dvh; }
-      .terminal { height: 100%; border-radius: 0; border: 0; }
-      .content { 
-        padding: 20px 18px;
-        gap: 16px;
-      }
-      .gif-container { height: 160px; }
-      .phrase { min-height: 110px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) { 
-      *, *::before, *::after { animation: none !important; transition: none !important; } 
-    }
-  </style>
+  <script src="messages.js" defer></script>
+<script src="gifs.js" defer></script>
+<script src="script.js" defer></script>
 </head>
+
 <body>
   <main>
     <section class="terminal">
       <div class="topbar" aria-hidden="true">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
         <span class="filename">greetings.exe</span>
       </div>
-      
+
       <div class="content">
-        <!-- TOPO -->
+
+        <!-- Cabeçalho -->
         <div class="header-content">
-          <h1 class="title">Console de Insights</h1>
-          <p class="subtitle">Humor dev, motivação e pensamentos para impulsionar seu dia e seus commits.</p>
-          
+          <h1 class="title">Log de Insights</h1>
+
+          <p class="subtitle">
+            Humor dev, motivação e pensamentos para impulsionar seu dia e seus commits.
+          </p>
+
           <div class="prompt-header">
             <p class="prompt">&gt; generate_phrase()</p>
             <span class="badge" id="category"></span>
           </div>
         </div>
 
-        <!-- MEIO: Caixa da Frase + GIF -->
+        <!-- Mensagem -->
         <div class="middle-content">
-          <div class="phrase" id="phrase" aria-live="polite">Desbloqueie a mensagem do dia</div>
-          
-          <div class="gif-container">
-            <img id="teamGif" src="https://media.giphy.com/media/l0G17m03uuLd7828U/giphy.gif" alt="Teamwork GIF" />
+          <div class="phrase" id="phrase" aria-live="polite">
+            Hello, World! Você desbloqueou uma mensagem secreta.
           </div>
         </div>
 
-        <!-- BASE: Botão de Ação -->
-        <div class="footer-content">
-          <div class="actions">
-            <button class="primary" id="generate">Ver frase ✨</button>
-          </div>
+        <!-- GIF: aparece após o desbloqueio -->
+        <div class="gif-container" id="gifContainer" hidden>
+          <img
+            id="teamGif"
+            src="https://media.giphy.com/media/l0G17m03uuLd7828U/giphy.gif"
+            alt="GIF relacionado ao insight"
+          >
         </div>
-      </div>
+
+        <!-- Ações -->
+        <div class="footer-content">
+  <div class="actions">
+    <button class="primary" id="generate" type="button">
+      Ver insight
+    </button>
+
+    <div class="secondary-actions" id="secondaryActions" hidden>
+      <button class="secondary" id="share" type="button">
+        Compartilhar ↗
+      </button>
+
+      <button class="secondary" id="copy" type="button">
+        Copiar ⧉
+      </button>
+    </div>
+  </div>
+</div>
     </section>
   </main>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const messages = [
-        { category: "Saudação", text: "Hello, World! Você desbloqueou uma mensagem secreta." },
-        { category: "Saudação", text: "Oi, time! Que hoje não faltem boas ideias e boas conversas." },
-        { category: "Humor dev", text: "Que seu dia tenha boas ideias e poucos conflitos de merge. 😄" },
-        { category: "Humor dev", text: "404: café não encontrado. Recarregando… ☕" },
-        { category: "Humor dev", text: "Bug encontrado: excesso de potencial. Correção não recomendada." },
-        { category: "Humor dev", text: "Funciona na minha máquina. Agora vamos descobrir por quê." },
-        { category: "Humor dev", text: "Keep calm e confira os logs." },
-        { category: "Humor dev", text: "Que todos os seus bugs sejam reproduzíveis e seus deploys tranquilos." },
-        { category: "Humor dev", text: "Um commit de cada vez." },
-        { category: "Surpresa", text: "Toda grande solução começa com uma boa pergunta." },
-        { category: "Surpresa", text: "Curiosidade ligada. Aprendizado em andamento. Próximo passo: seu." },
-        { category: "Surpresa", text: "Lembrete amigável: até o melhor código começou com uma primeira tentativa." },
-        { category: "Surpresa", text: "Sua próxima ideia pode ser a que faltava para conectar tudo." },
-        { category: "Surpresa", text: "Você chegou até aqui. Parabéns!!! Que você continue avançando e evoluindo para a realização dos seus objetivos e sonhos!" },
-        { category: "Surpresa", text: "Às vezes, a melhor ferramenta é perguntar a alguém do time." },
-        { category: "Surpresa", text: "Que nunca faltem curiosidade para explorar e coragem para tentar." },
-        { category: "Surpresa", text: "Status do sistema: possibilidades em aberto." },
-        { category: "Surpresa", text: "Mensagem do futuro: continue construindo. Sua história ainda está em desenvolvimento." },
-        { category: "Surpresa", text: "Você não precisa saber tudo — precisa continuar aprendendo." },
-        { category: "Surpresa", text: "Um bug não define seu trabalho. A forma como você investiga faz a diferença." },
-        { category: "Surpresa", text: "Pequenos commits também constroem grandes entregas." },
-        { category: "Surpresa", text: "Sua perspectiva pode ser exatamente a peça que faltava no problema." },
-        { category: "Surpresa", text: "Pedir ajuda também é uma habilidade técnica." },
-        { category: "Surpresa", text: "Código bom resolve problemas. Colaboração boa resolve problemas maiores." },
-        { category: "Surpresa", text: "Nem todo progresso aparece na tela. Às vezes, ele acontece enquanto você entende o problema." },
-        { category: "Surpresa", text: "Que hoje você encontre mais soluções do que obstáculos." },
-        { category: "Surpresa", text: "Seu próximo nível começa com a curiosidade de fazer uma pergunta." },
-        { category: "Surpresa", text: "Feito, testado e aprendido: três formas de avançar." },
-        { category: "Surpresa", text: "Não subestime o impacto de compartilhar o que você aprendeu." },
-        { category: "Surpresa", text: "Toda pessoa experiente já foi iniciante em alguma coisa." },
-        { category: "Surpresa", text: "Que seu café esteja forte e seus erros sejam fáceis de reproduzir. ☕" },
-        { category: "Surpresa", text: "Se não funcionou, agora você tem uma hipótese a menos. Debugging também é progresso." },
-        { category: "Surpresa", text: "Uma boa equipe não precisa pensar igual — precisa construir junto." },
-        { category: "Surpresa", text: "Que a próxima tarefa venha com requisitos claros e zero conflitos de merge. 😄" },
-        { category: "Surpresa", text: "Você faz parte de algo que fica melhor quando todo mundo contribui." },
-        { category: "Surpresa", text: "A solução pode ser complexa; o próximo passo não precisa ser." },
-        { category: "Surpresa", text: "Continue! A versão de você que sabe fazer isso está sendo construída agora." }
-      ];
-
-      const gifs = [
-        "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHN0NXFwYzFqYjF3eXBoZDFtODJ1bmplbWRobHZoc3o5NjVjaWQ2biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/65HR2UL6nn6XMSUoRA/giphy.gif",
-"https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbDZwOGhqejBvamo4Z3hxMTEwb2VzeG1jZGF6Nzd6czhwamE3Z2IwcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6YgphNy4s4MGQyuQ/giphy.gif",
-        "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWM0cWU0bGd3ejA3OWtqaGZic2JrN2p5djFnbXJwbjNtdGtvd3NiMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vdWA6yzDlVDppSTWLm/giphy.gif",
-        "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3B6OHN6Njhoc2t5bXE1ZmF0dWI1MjZ4ejU5cnU2c3E0bTV5cDM1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5cZbRBLhW4tc4/giphy.gif",
-        "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hwMHhyenRvenVoZG1qZjQ2N2E3ZXN6aGxuZHc0aGs5Nnl0cmYyayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/cIbLzSuPCmVVmgPx9R/giphy.gif",
-        "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnkzbGE5NG5ldmVjcXQzY3VzM255dGg2M3pqZXZsOHhqY2l6Z2s0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/InTZso3lKgKs/giphy.gif",
-        "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXBwazI4MjhocmJoY3Q1bmwwbW5mZ3k3MnRwOWI0dm9hb3RzaThlOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/AwB5Eqc1zNRaFN9grK/giphy.gif",
-
-      ];
-
-      let lastMsgIndex = -1;
-      let lastGifIndex = -1;
-
-      const phraseEl = document.getElementById("phrase");
-      const categoryEl = document.getElementById("category");
-      const gifEl = document.getElementById("teamGif");
-      const generateBtn = document.getElementById("generate");
-
-      function generateSurprise() {
-        if (!phraseEl || messages.length === 0) return;
-
-        // Sorteia Frase sem repetir
-        let msgIndex;
-        do { 
-          msgIndex = Math.floor(Math.random() * messages.length); 
-        } while (messages.length > 1 && msgIndex === lastMsgIndex);
-        lastMsgIndex = msgIndex;
-
-        // Sorteia GIF sem repetir
-        let gifIndex;
-        do {
-          gifIndex = Math.floor(Math.random() * gifs.length);
-        } while (gifs.length > 1 && gifIndex === lastGifIndex);
-        lastGifIndex = gifIndex;
-
-        const currentMsg = messages[msgIndex];
-        
-        // Aplica efeito de atualização
-        phraseEl.classList.remove("changed");
-        gifEl.classList.remove("changed");
-        void phraseEl.offsetWidth; // Força reflow
-        
-        // Atualiza textos e GIF
-        phraseEl.textContent = currentMsg.text;
-        categoryEl.textContent = currentMsg.category;
-        categoryEl.classList.add("active");
-        gifEl.src = gifs[gifIndex];
-
-        phraseEl.classList.add("changed");
-        gifEl.classList.add("changed");
-      }
-
-      generateBtn.addEventListener("click", generateSurprise);
-      
-      // Gera o primeiro estado ao carregar
-      generateSurprise();
-    });
-  </script>
 </body>
+
 </html>
